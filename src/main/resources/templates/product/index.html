@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Product List</title>
+</head>
+<body>
+<th:block th:insert="~{layout/nav :: nav}"></th:block>
+<h2>Product list</h2>
+<a th:href="@{product/create}" th:if="${session.get('role')} != null and ${session.get('role')} == 'ADMIN'">Create new product</a>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Links</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr th:each="product : ${products}" th:object="${product}">
+            <td th:text="*{name}"></td>
+            <td th:text="*{price}"></td>
+            <td>
+                <a th:href="@{/product/{id} (id = *{id})}">Details</a>
+                <a th:href="@{/product/update/{id} (id = *{id})}" th:if="${session.get('role')} != null and ${session.get('role')} == 'ADMIN'">Update</a>
+                <a th:href="@{/product/delete/{id} (id = *{id})}" th:if="${session.get('role')} != null and ${session.get('role')} == 'ADMIN'">Delete</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>

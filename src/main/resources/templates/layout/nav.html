@@ -1,0 +1,20 @@
+<nav>
+    <ul>
+        <li>
+            <a th:href="@{/}">Exo MVC</a>
+        </li>
+        <li>
+            <a th:href="@{/product}">Products</a>
+        </li>
+        <li>
+            <a th:if="${session.get('currentUser')} == null" th:href="@{/auth/login}">Login</a>
+            <a th:if="${session.get('currentUser')} != null" th:href="@{/auth/logout}">logout</a>
+        </li>
+        <li th:if="${session.get('currentUser')} == null">
+            <a th:href="@{/auth/register}">Register</a>
+        </li>
+        <li th:if="${session.get('currentUser')} != null">
+            <p th:text="${session.get('currentUser')}"></p>
+        </li>
+    </ul>
+</nav>
