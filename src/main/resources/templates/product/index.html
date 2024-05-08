@@ -22,8 +22,8 @@
             <td th:text="*{price}"></td>
             <td>
                 <a th:href="@{/product/{id} (id = *{id})}">Details</a>
-                <a th:href="@{/product/update/{id} (id = *{id})}" th:if="${session.get('role')} != null and ${session.get('role')} == 'ADMIN'">Update</a>
-                <a th:href="@{/product/delete/{id} (id = *{id})}" th:if="${session.get('role')} != null and ${session.get('role')} == 'ADMIN'">Delete</a>
+                <a th:href="@{/product/update/{id} (id = *{id})}" th:if="${session.get('role') == 'ADMIN'}">Update</a>
+                <a th:href="@{/product/delete/{id} (id = *{id})}" th:if="${session.get('role') == 'ADMIN'}">Delete</a>
             </td>
         </tr>
     </tbody>
