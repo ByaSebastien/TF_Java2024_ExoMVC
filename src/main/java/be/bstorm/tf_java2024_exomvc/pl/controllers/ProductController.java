@@ -2,6 +2,7 @@ package be.bstorm.tf_java2024_exomvc.pl.controllers;
 
 import be.bstorm.tf_java2024_exomvc.bll.services.ProductService;
 import be.bstorm.tf_java2024_exomvc.domain.entities.Product;
+import be.bstorm.tf_java2024_exomvc.pl.models.product.forms.ProductFilter;
 import be.bstorm.tf_java2024_exomvc.pl.models.product.forms.ProductForm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,15 @@ public class ProductController {
     @GetMapping
     public String getProducts(Model model) {
         List<Product> products = productService.getProducts();
+        model.addAttribute("products", products);
+        model.addAttribute("filter", new ProductFilter());
+        return "product/index";
+    }
+
+    @PostMapping("/filter")
+    public String getProductsWithCriteria(@ModelAttribute("filter") ProductFilter f, Model model) {
+
+        List<Product> products = productService.getProductsByCriteria(f.getName(),f.getLowerBound(),f.getUpperBound());
         model.addAttribute("products", products);
         return "product/index";
     }

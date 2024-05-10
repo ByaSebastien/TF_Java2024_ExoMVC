@@ -8,6 +8,12 @@
 <th:block th:insert="~{layout/nav :: nav}"></th:block>
 <h2>Product list</h2>
 <a th:href="@{product/create}" th:if="${session.get('role')} != null and ${session.get('role')} == 'ADMIN'">Create new product</a>
+<form th:object="${filter}" th:action="@{/product/filter}" method="post">
+    <input type="text" th:field="*{name}" placeholder="product name">
+    <input type="number" th:field="*{lowerBound}" placeholder="price min">
+    <input type="number" th:field="*{upperBound}" placeholder="price max">
+    <button type="submit">Search</button>
+</form>
 <table>
     <thead>
     <tr>

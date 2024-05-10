@@ -7,6 +7,7 @@ import java.util.List;
 public interface ProductService {
 
     List<Product> getProducts();
+    List<Product> getProductsByCriteria(String name,Integer lowerBound,Integer upperBound);
     Product getProductById(Long id);
     void addProduct(Product product);
     void updateProduct(Long id, Product product);

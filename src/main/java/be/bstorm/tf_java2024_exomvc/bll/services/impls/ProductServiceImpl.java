@@ -3,9 +3,11 @@ package be.bstorm.tf_java2024_exomvc.bll.services.impls;
 import be.bstorm.tf_java2024_exomvc.bll.exceptions.product.ProductAlreadyExistException;
 import be.bstorm.tf_java2024_exomvc.bll.exceptions.product.ProductNotFoundException;
 import be.bstorm.tf_java2024_exomvc.bll.services.ProductService;
+import be.bstorm.tf_java2024_exomvc.bll.specifications.ProductSpecification;
 import be.bstorm.tf_java2024_exomvc.dal.repositories.ProductRepository;
 import be.bstorm.tf_java2024_exomvc.domain.entities.Product;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +21,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getProducts() {
         return productRepository.findAll();
+    }
+
+    @Override
+    public List<Product> getProductsByCriteria(String name, Integer lowerBound, Integer upperBound) {
+        Specification<Product> spec = getSpecification(name, lowerBound, upperBound);
+        return productRepository.findAll(spec);
     }
 
     @Override
@@ -53,5 +61,20 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(Long id) {
 
         productRepository.deleteById(id);
+    }
+
+    private Specification<Product> getSpecification(String name,Integer lowerBound, Integer upperBound) {
+
+        Specification<Product> spec = Specification.where(null);
+        if(!name.isBlank()){
+            spec = spec.and(ProductSpecification.getByName(name));
+        }
+        if(lowerBound != null){
+            spec = spec.and(ProductSpecification.getByLowerBound(lowerBound));
+        }
+        if(upperBound != null){
+            spec = spec.and(ProductSpecification.getByUpperBound(upperBound));
+        }
+        return spec;
     }
 }
